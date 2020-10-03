@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>FirstVueProj</title>
+    <link rel="stylesheet" href="StyleSheet1.css">
 </head>
 <body>
     
@@ -15,8 +16,8 @@
                 <!-- vue's v-bind directive create a bind between data & the attribute we wana be bound to -->
                 <img v-bind:src="image" width="300px">
             </div>
-            <div>
-                <h2>{{ product }}</h2>
+            <div class="product-info">
+                <h2>{{ title }}</h2>
                 <!--
                 try v-show -- it adds a display-none in the css of the element -- it doesn't change the dom -- faster
                 <p v-if="inStock">In stock</p>
@@ -29,24 +30,41 @@
                 <ul>
                     <li v-for="detail in details">{{ detail }}</li>
                 </ul>
-                <div v-for="variant in variants" :key="variant.variantID">
-                    <!-- @ is a chorthand for v-on -->
+
+                <!-- 
+                <div v-for="variant in variants" 
+                    :key="variant.variantID"
+                    class="color-box"
+                    :style="{ backgroundColor: variant.variantColor }"
+                    @mouseover="updateProduct( variant.variantImage )">
+                -->
+                <!-- Same thing but with a computed prop image()-->
+                <div v-for="(variant, index) in variants" 
+                    :key="variant.variantID"
+                    class="color-box"
+                    :style="{ backgroundColor: variant.variantColor }"
+                    @mouseover="updateProduct( index )">
+                    <!-- @ is a chorthand for v-on 
                     <p @mouseover="updateProduct( variant.variantImage )">{{ variant.variantColor }}</p>
+                    -->
                 </div>
 
-                <button v-on:click="addToCart">Add to Cart</button>
+                <button v-on:click="addToCart"
+                        :disabled="!inStock"
+                        :class="{ disabledButton: !inStock }">Add to Cart</button>
+
                 <div class="cart">
                     <p>Cart({{cart}})</p>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://unpkg.com/vue"></script>
     <!-- 
+    <script src="https://unpkg.com/vue"></script>
      development version, includes helpful console warnings :
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
     <!-- 
     production version, optimized for size and speed :
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
