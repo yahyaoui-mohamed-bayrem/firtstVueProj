@@ -11,53 +11,13 @@
     <div class="nav-bar"></div>
 
     <div id="app">
-        <div class="product"> 
-            <div class="product-image">
-                <!-- vue's v-bind directive create a bind between data & the attribute we wana be bound to -->
-                <img v-bind:src="image" width="300px">
-            </div>
-            <div class="product-info">
-                <h2>{{ title }}</h2>
-                <!--
-                try v-show -- it adds a display-none in the css of the element -- it doesn't change the dom -- faster
-                <p v-if="inStock">In stock</p>
-                <p v-else>Out of stock</p>
-                -->
-                <p v-if="inventory > 10">In stock</p>
-                <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
-                <p v-else>Out of stock</p>
-
-                <ul>
-                    <li v-for="detail in details">{{ detail }}</li>
-                </ul>
-
-                <!-- 
-                <div v-for="variant in variants" 
-                    :key="variant.variantID"
-                    class="color-box"
-                    :style="{ backgroundColor: variant.variantColor }"
-                    @mouseover="updateProduct( variant.variantImage )">
-                -->
-                <!-- Same thing but with a computed prop image()-->
-                <div v-for="(variant, index) in variants" 
-                    :key="variant.variantID"
-                    class="color-box"
-                    :style="{ backgroundColor: variant.variantColor }"
-                    @mouseover="updateProduct( index )">
-                    <!-- @ is a chorthand for v-on 
-                    <p @mouseover="updateProduct( variant.variantImage )">{{ variant.variantColor }}</p>
-                    -->
-                </div>
-
-                <button v-on:click="addToCart"
-                        :disabled="!inStock"
-                        :class="{ disabledButton: !inStock }">Add to Cart</button>
-
-                <div class="cart">
-                    <p>Cart({{cart}})</p>
-                </div>
-            </div>
+        <div class="cart">
+            <p>Cart({{ cart.length }})</p>
         </div>
+        <product :premium="premium" @add-to-cart="updateCart"></product>
+        <product @add-to-cart="updateCart"></product>
+        <product @add-to-cart="updateCart"></product>
+        
     </div>
     <!-- 
     <script src="https://unpkg.com/vue"></script>
